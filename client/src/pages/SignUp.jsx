@@ -39,10 +39,10 @@ const SignUp = () => {
               <label htmlFor="username">Username:</label>
               <div className="bg-slate-100 p-2">
                 <input
-                  type="username"
+                  type="name"
                   placeholder="Enter username.."
-                  name="username"
-                  value={data.username}
+                  name="name"
+                  value={data.name}
                   onChange={onChangeHandler}
                   required
                   className="w-full h-full outline-none bg-transparent "
