@@ -33,8 +33,8 @@ const SignUp = () => {
     e.preventDefault();
 
     if (data.password === data.confirmPassword) {
-      const dataResponse = await fetch(SummaryApi.signUP.url, {
-        method: SummaryApi.signUP.method,
+      const dataResponse = await fetch(SummaryApi.signUp.url, {
+        method: SummaryApi.signUp.method,
         headers: {
           "content-type": "application/json",
         },
@@ -60,7 +60,7 @@ const SignUp = () => {
       <div className="mx-auto container p-4">
         <div className="bg-white p-2 w-full max-w-md mx-auto rounded">
           <form
-            action=""
+            method="POST"
             className="p-3 flex flex-col gap-3"
             onSubmit={onSubmitHandler}
           >
