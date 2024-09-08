@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoMdEye } from "react-icons/io";
 import { FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import SummaryApi from "../common";
 import { toast } from "react-toastify";
+import Context from "../context";
+
+
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,7 +16,8 @@ const Login = () => {
     password: "",
   });
 
-  const navigate =useNavigate()
+  const navigate = useNavigate();
+  const {fetchUserDetails} = useContext(Context)
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -26,26 +30,27 @@ const Login = () => {
     });
   };
 
-  const onSubmitHandler = async(e) => {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
-    const dataResponse = await fetch(SummaryApi.signIn.url,{
+    const dataResponse = await fetch(SummaryApi.signIn.url, {
       method: SummaryApi.signIn.method,
-      credentials: 'include',
+      credentials: "include",
       headers: {
-        "content-type":"application/json"
+        "content-type": "application/json",
       },
-      body: JSON.stringify(data)
-    })
+      body: JSON.stringify(data),
+    });
 
-    const dataApi = await dataResponse.json()
+    const dataApi = await dataResponse.json();
 
-    if(dataApi.success){
-      toast.success(dataApi.message)
-      navigate("/")
+    if (dataApi.success) {
+      toast.success(dataApi.message);
+      navigate("/");
+      fetchUserDetails()
     }
 
-    if(dataApi.error){
-      toast.error(dataApi.message)
+    if (dataApi.error) {
+      toast.error(dataApi.message);
     }
   };
 
@@ -55,7 +60,11 @@ const Login = () => {
     <section id="login">
       <div className="mx-auto container p-4">
         <div className="bg-white p-2 w-full max-w-md mx-auto rounded">
-          <form action="" className="p-3 flex flex-col gap-3" onSubmit={onSubmitHandler}>
+          <form
+            action=""
+            className="p-3 flex flex-col gap-3"
+            onSubmit={onSubmitHandler}
+          >
             <div className="grid">
               <label htmlFor="email">Email:</label>
               <div className="bg-slate-100 p-2">
