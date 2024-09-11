@@ -51,7 +51,7 @@ const SignUp = () => {
       }
 
     } else {
-      console.log("Passwords doesn't match!")
+      toast.error("Passwords doesn't match!")
     }
   };
 
