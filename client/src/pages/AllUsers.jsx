@@ -4,6 +4,7 @@ import SummaryApi from "../common";
 import moment from "moment";
 import { toast } from "react-toastify";
 import { TbUserEdit } from "react-icons/tb";
+import ChangeUserRole from "../components/ChangeUserRole";
 
 const AllUsers = () => {
   const [allUser, setAllUsers] = useState([]);
@@ -60,6 +61,8 @@ const AllUsers = () => {
           })}
         </tbody>
       </table>
+
+      <ChangeUserRole />
     </div>
   );
 };
