@@ -1,9 +1,11 @@
+/* eslint-disable react/jsx-key */
 import React, { useState } from "react";
 import { MdClose } from "react-icons/md";
 import { MdUploadFile } from "react-icons/md";
 import productCategory from "../helpers/productCategory";
 import uploadImage from "../helpers/uploadImage";
 import DisplayImage from "./DisplayImage";
+import { MdDelete } from "react-icons/md";
 
 const UploadProduct = ({ onClose }) => {
   const [data, setData] = useState({
@@ -13,14 +15,22 @@ const UploadProduct = ({ onClose }) => {
     productImage: [],
     description: "",
     price: "",
-    selling: "",
+    sellingPrice: "",
   });
-  const [uploadProductImageInput, setUploadProductImageInput] = useState("");
-  const onChangeHandler = (e) => {};
+  const [openFullScreenImage, setOpenFullScreenImage] = useState(false);
+  const [fullScreenImage, setFullScreenImage] = useState("");
+  const onChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setData((preve) => {
+      return {
+        ...preve,
+        [name]: value,
+      };
+    });
+  };
 
   const uploadProductImageHandler = async (e) => {
     const file = e.target.files[0];
-    setUploadProductImageInput(file.name);
     const uploadImageCloudinary = await uploadImage(file);
     setData((preve) => {
       return {
@@ -28,8 +38,25 @@ const UploadProduct = ({ onClose }) => {
         productImage: [...preve.productImage, uploadImageCloudinary.url],
       };
     });
-    console.log(uploadImageCloudinary.url);
   };
+  const deleteProductImageHandler = async (index) => {
+    const newProductImage = [...data.productImage];
+    newProductImage.splice(index, 1);
+    setData((preve) => {
+      return {
+        ...preve,
+        productImage: [...newProductImage],
+      };
+    });
+  };
+
+
+  {/**upload product */}
+  const submitHandler = (e) => {
+     e.preventDefault()
+     console.log(data)
+  }
+
   return (
     <div className="fixed w-full h-full bg-slate-200 bg-opacity-35 top-0 left-0 right-0 bottom-0 flex justify-center items-center">
       <div className="bg-white p-4 rounded w-full max-w-2xl h-full max-h-[80%] overflow-hidden">
@@ -43,7 +70,7 @@ const UploadProduct = ({ onClose }) => {
           </div>
         </div>
 
-        <form action="" className="grid p-4 gap-2 overflow-y-auto h-full pb-5">
+        <form action="" onSubmit={submitHandler} className="grid p-4 gap-2 overflow-y-auto h-full pb-5">
           <label htmlFor="productName">Product Name: </label>
           <input
             type="text"
@@ -67,8 +94,13 @@ const UploadProduct = ({ onClose }) => {
           <label htmlFor="category">Category: </label>
           <select
             value={data.category}
+            name="category"
             className="p-2 bg-slate-100 border rounded"
+            onChange={onChangeHandler}
           >
+            <option value={""}>
+                 Select product category
+                </option>
             {productCategory.map((el, index) => {
               return (
                 <option value={el.value} key={el.value + index}>
@@ -96,33 +128,79 @@ const UploadProduct = ({ onClose }) => {
           </label>
           <div>
             {data?.productImage[0] ? (
-          <div className="flex items-center gap-2">
-            {
-                    data.productImage.map((el) => {
-                        return (
-                          <img
-                            src={el}
-                            alt="el"
-                            width={80}
-                            height={80}
-                            className="bg-slate-100 border "
-                          />
-                        );
-                      })
-            }
-          </div>
+              <div className="flex items-center gap-2">
+                {data.productImage.map((el, index) => {
+                  return (
+                    <div className="relative group">
+                      <img
+                        src={el}
+                        alt={el}
+                        width={80}
+                        height={80}
+                        className="bg-slate-100 border cursor-pointer"
+                        onClick={() => {
+                          setOpenFullScreenImage(true);
+                          setFullScreenImage(el);
+                        }}
+                      />
+                      <div
+                        className="absolute bottom-0 right-0 p-1 text-white bg-cyan-600 rounded-full hidden group-hover:block cursor-pointer"
+                        onClick={() => deleteProductImageHandler(index)}
+                      >
+                        <MdDelete />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             ) : (
-              <p className="text-cyan-500 text-xs">Upload product image</p>
+              <p className="text-cyan-500 text-xs">* Please upload an image</p>
             )}
           </div>
+          <label htmlFor="price">Price: </label>
+          <input
+            type="number"
+            id="price"
+            name="price"
+            placeholder="Enter product's price"
+            value={data.price}
+            onChange={onChangeHandler}
+            className="p-2 bg-slate-100 border rounded"
+          />
+
+          <label htmlFor="sellingPrice">Selling Price: </label>
+          <input
+            type="number"
+            id="sellingPrice"
+            name="sellingPrice"
+            placeholder="Enter product's selling price"
+            value={data.sellingPrice}
+            onChange={onChangeHandler}
+            className="p-2 bg-slate-100 border rounded"
+          />
+
+          <label htmlFor="description">Description: </label>
+          <textarea
+            className="h-28 bg-slate-100 border resize-none p-1"
+            placeholder="Enter product description"
+            rows={3}
+            name="description"
+            onChange={onChangeHandler}
+          ></textarea>
+
           <button className="px-3 py-2 bg-cyan-500 text-white mb-5 hover:bg-cyan-700">
             Upload product
           </button>
         </form>
-
       </div>
+
       {/** display image full screen */}
-      <DisplayImage onClose={} imgUrl={}/>
+      {openFullScreenImage && (
+        <DisplayImage
+          onClose={() => setOpenFullScreenImage(false)}
+          imgUrl={fullScreenImage}
+        />
+      )}
     </div>
   );
 };

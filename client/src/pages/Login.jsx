@@ -54,7 +54,6 @@ const Login = () => {
     }
   };
 
-  console.log("login data:", data);
 
   return (
     <section id="login">
