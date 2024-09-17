@@ -6,6 +6,8 @@ import productCategory from "../helpers/productCategory";
 import uploadImage from "../helpers/uploadImage";
 import DisplayImage from "./DisplayImage";
 import { MdDelete } from "react-icons/md";
+import SummaryApi from "../common";
+import { toast } from "react-toastify";
 
 const UploadProduct = ({ onClose }) => {
   const [data, setData] = useState({
@@ -50,12 +52,31 @@ const UploadProduct = ({ onClose }) => {
     });
   };
 
-
-  {/**upload product */}
-  const submitHandler = (e) => {
-     e.preventDefault()
-     console.log(data)
+  {
+    /**upload product */
   }
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    const response = await fetch(SummaryApi.uploadProduct.url, {
+      method: SummaryApi.uploadProduct.method,
+      credentials: "include",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(data)
+    });
+
+    const responseData = await response.json();
+
+    if (responseData.success) {
+      toast.success(responseData?.message);
+      onClose()
+    }
+    if (responseData.error) {
+      toast.error(responseData?.message);
+    }
+  };
 
   return (
     <div className="fixed w-full h-full bg-slate-200 bg-opacity-35 top-0 left-0 right-0 bottom-0 flex justify-center items-center">
@@ -70,7 +91,11 @@ const UploadProduct = ({ onClose }) => {
           </div>
         </div>
 
-        <form action="" onSubmit={submitHandler} className="grid p-4 gap-2 overflow-y-auto h-full pb-5">
+        <form
+          action=""
+          onSubmit={submitHandler}
+          className="grid p-4 gap-2 overflow-y-auto h-full pb-5"
+        >
           <label htmlFor="productName">Product Name: </label>
           <input
             type="text"
@@ -80,6 +105,7 @@ const UploadProduct = ({ onClose }) => {
             value={data.productName}
             onChange={onChangeHandler}
             className="p-2 bg-slate-100 border rounded"
+            required
           />
           <label htmlFor="brandName">Product Brand: </label>
           <input
@@ -90,6 +116,7 @@ const UploadProduct = ({ onClose }) => {
             value={data.brandName}
             onChange={onChangeHandler}
             className="p-2 bg-slate-100 border rounded"
+            required
           />
           <label htmlFor="category">Category: </label>
           <select
@@ -97,10 +124,9 @@ const UploadProduct = ({ onClose }) => {
             name="category"
             className="p-2 bg-slate-100 border rounded"
             onChange={onChangeHandler}
+            required
           >
-            <option value={""}>
-                 Select product category
-                </option>
+            <option value={""}>Select product category</option>
             {productCategory.map((el, index) => {
               return (
                 <option value={el.value} key={el.value + index}>
@@ -122,6 +148,7 @@ const UploadProduct = ({ onClose }) => {
                   id="uploadImageInput"
                   className="hidden"
                   onChange={uploadProductImageHandler}
+                  required
                 />
               </div>
             </div>
@@ -166,6 +193,7 @@ const UploadProduct = ({ onClose }) => {
             value={data.price}
             onChange={onChangeHandler}
             className="p-2 bg-slate-100 border rounded"
+            required
           />
 
           <label htmlFor="sellingPrice">Selling Price: </label>
@@ -177,6 +205,7 @@ const UploadProduct = ({ onClose }) => {
             value={data.sellingPrice}
             onChange={onChangeHandler}
             className="p-2 bg-slate-100 border rounded"
+            required
           />
 
           <label htmlFor="description">Description: </label>
