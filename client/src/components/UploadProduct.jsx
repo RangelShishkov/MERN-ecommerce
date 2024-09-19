@@ -9,7 +9,7 @@ import { MdDelete } from "react-icons/md";
 import SummaryApi from "../common";
 import { toast } from "react-toastify";
 
-const UploadProduct = ({ onClose }) => {
+const UploadProduct = ({ onClose, fetchData }) => {
   const [data, setData] = useState({
     productName: "",
     brandName: "",
@@ -64,14 +64,15 @@ const UploadProduct = ({ onClose }) => {
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     });
 
     const responseData = await response.json();
 
     if (responseData.success) {
       toast.success(responseData?.message);
-      onClose()
+      onClose();
+      fetchData();
     }
     if (responseData.error) {
       toast.error(responseData?.message);
@@ -96,17 +97,6 @@ const UploadProduct = ({ onClose }) => {
           onSubmit={submitHandler}
           className="grid p-4 gap-2 overflow-y-auto h-full pb-5"
         >
-          <label htmlFor="productName">Product Name: </label>
-          <input
-            type="text"
-            id="productName"
-            name="productName"
-            placeholder="Enter product name"
-            value={data.productName}
-            onChange={onChangeHandler}
-            className="p-2 bg-slate-100 border rounded"
-            required
-          />
           <label htmlFor="brandName">Product Brand: </label>
           <input
             type="text"
@@ -118,6 +108,18 @@ const UploadProduct = ({ onClose }) => {
             className="p-2 bg-slate-100 border rounded"
             required
           />
+          <label htmlFor="productName">Product Name: </label>
+          <input
+            type="text"
+            id="productName"
+            name="productName"
+            placeholder="Enter product name"
+            value={data.productName}
+            onChange={onChangeHandler}
+            className="p-2 bg-slate-100 border rounded"
+            required
+          />
+
           <label htmlFor="category">Category: </label>
           <select
             value={data.category}
@@ -148,7 +150,6 @@ const UploadProduct = ({ onClose }) => {
                   id="uploadImageInput"
                   className="hidden"
                   onChange={uploadProductImageHandler}
-                  required
                 />
               </div>
             </div>

@@ -97,17 +97,6 @@ const AdminEditProduct = ({ onClose, productData, fetchData }) => {
           onSubmit={submitHandler}
           className="grid p-4 gap-2 overflow-y-auto h-full pb-5"
         >
-          <label htmlFor="productName">Product Name: </label>
-          <input
-            type="text"
-            id="productName"
-            name="productName"
-            placeholder="Enter product name"
-            value={data.productName}
-            onChange={onChangeHandler}
-            className="p-2 bg-slate-100 border rounded"
-            required
-          />
           <label htmlFor="brandName">Product Brand: </label>
           <input
             type="text"
@@ -119,6 +108,18 @@ const AdminEditProduct = ({ onClose, productData, fetchData }) => {
             className="p-2 bg-slate-100 border rounded"
             required
           />
+          <label htmlFor="productName">Product Name: </label>
+          <input
+            type="text"
+            id="productName"
+            name="productName"
+            placeholder="Enter product name"
+            value={data.productName}
+            onChange={onChangeHandler}
+            className="p-2 bg-slate-100 border rounded"
+            required
+          />
+
           <label htmlFor="category">Category: </label>
           <select
             value={data.category}

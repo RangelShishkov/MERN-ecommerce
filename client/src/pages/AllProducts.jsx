@@ -30,7 +30,7 @@ const AllProducts = () => {
         </button>
       </div>
       {/* all product */}
-      <div className="flex items-center gap-5 py-4">
+      <div className="flex items-start flex-wrap gap-5 py-4 h-[calc(100vh-215px)] overflow-y-auto ">
         {
           allProducts.map((product,index) => {
             return(
@@ -42,7 +42,7 @@ const AllProducts = () => {
 
       {/**upload product component */}
       {openUploadProduct && (
-        <UploadProduct onClose={() => setOpenUploadProduct(false)} />
+        <UploadProduct onClose={() => setOpenUploadProduct(false)} fetchData={fetchAllProduct} />
       )}
     </div>
   );
