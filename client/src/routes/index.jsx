@@ -2,11 +2,12 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
-import ForgotPassword from "../pages/ForgotPassword"
+import ForgotPassword from "../pages/ForgotPassword";
 import SignUp from "../pages/SignUp";
 import AdminPanel from "../pages/AdminPanel";
 import AllUsers from "../pages/AllUsers";
 import AllProducts from "../pages/AllProducts";
+import CategoryProduct from "../pages/CategoryProduct";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
         element: <SignUp />,
       },
       {
+        path: "product-category/:categoryName",
+        element: <CategoryProduct />,
+      },
+      {
         path: "admin-panel",
         element: <AdminPanel />,
         children: [
@@ -39,9 +44,9 @@ const router = createBrowserRouter([
           },
           {
             path: "all-products",
-            element: <AllProducts/>,
+            element: <AllProducts />,
           },
-        ]
+        ],
       },
     ],
   },
