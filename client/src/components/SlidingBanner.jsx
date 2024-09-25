@@ -42,7 +42,8 @@ const SlidingBanner = () => {
       }
     }, 5000);
     return () => clearInterval(interval);
-  }, [currentImage,deskImages.length,nextImage]);
+     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentImage,deskImages.length]);
 
   return (
     <div className="container mx-auto px-4 rounded">
@@ -67,7 +68,7 @@ const SlidingBanner = () => {
           {deskImages.map((imageUrl, index) => {
             return (
               <div
-                className="w-full h-full min-w-full min-h-full transition-all"
+                className="w-full h-full min-w-full min-h-full transition-all duration-500"
                 key={imageUrl}
                 style={{ transform: `translateX(-${currentImage * 100}%)` }}
               >

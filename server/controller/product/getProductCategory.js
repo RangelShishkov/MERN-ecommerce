@@ -2,25 +2,13 @@ const productModel = require("../../models/productModel");
 
 const getProductCategory = async (req, res) => {
   try {
-    const productCategory = await productModel.distinct("category");
-
-    //array to store ONE product from each category
-    const productByCategory = [];
-
-    for (const category of productCategory) {
-      const product = await productModel.findOne({category});
-
-      if (product) {
-        productByCategory.push(product);
-      }
-    }
-
+    const { category } = req?.body || req?.query
+    const product = await productModel.find({ category });
     res.json({
-      message: "category product",
-      data: productByCategory,
-      success: true,
-      error: false,
-    });
+        data: product,
+        success: true,
+        error: false,
+    })
   } catch (err) {
     res.status(400).json({
       message: err.message || err,
@@ -29,5 +17,4 @@ const getProductCategory = async (req, res) => {
     });
   }
 };
-
-module.exports = getProductCategory;
+module.exports = getProductCategory
