@@ -6,7 +6,7 @@ import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
 const VerticalCardProduct = ({ category, heading }) => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const loadingList = new Array(13).fill(null);
 
   const [scroll, setScroll] = useState(0);
@@ -21,7 +21,7 @@ const VerticalCardProduct = ({ category, heading }) => {
 
   useEffect(() => {
     fetchData();
-  });
+  }, []);
 
   const scrollRight = () => {
     scrollElement.current.scrollLeft += 350;
@@ -50,41 +50,64 @@ const VerticalCardProduct = ({ category, heading }) => {
         >
           <FaAngleRight />
         </button>
-        {data.map((product, index) => {
-          return (
-            <div
-              key={product._id}
-              className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow"
-            >
-              <div className="bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center">
-                <img
-                  src={product.productImage[0]}
-                  className="object-scale-down h-full hover:scale-110 transition-all mix-blend-multiply"
-                />
-              </div>
-              <div className="p-4 grid gap-2 ">
-                <h2 className="font-semibold text-base md:text-lg text-ellipsis line-clamp-1 text-black">
-                  {product.brandName + " "}
-                  {product?.productName}
-                </h2>
-                <p className="text-sm text-slate-400">{product?.category}</p>
-                <div className="flex gap-3">
-                  <p className="text-cyan-500 font-medium">
-                    {displayCurrency(product.sellingPrice)}
-                  </p>
+        {loading
+          ? loadingList.map((product, index) => {
+              return (
+                <div
+                  key={"verticalLoading" + index}
+                  className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow"
+                >
+                  <div className="bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center animate-pulse"></div>
+                  <div className="p-4 grid gap-2 ">
+                    <h2 className="font-semibold text-base md:text-lg text-ellipsis line-clamp-1 text-black p-1 py-2 animate-pulse rounded-full bg-slate-200"></h2>
+                    <p className="text-sm text-slate-400 p-1 py-2 animate-pulse rounded-full bg-slate-200 "></p>
+                    <div className="flex gap-3">
+                      <p className="text-cyan-500 font-medium p-1 py-2 animate-pulse rounded-full bg-slate-200 w-full"></p>
+                      <p className=" text-slate-500 line-through p-1 py-2 animate-pulse rounded-full bg-slate-200 w-full"></p>
+                    </div>
 
-                  <p className=" text-slate-500 line-through">
-                    {displayCurrency(product.price)}
-                  </p>
+                    <button className="text-sm text-white px-3 py-2 flex gap-1 rounded-full animate-pulse bg-slate-200"></button>
+                  </div>
                 </div>
+              );
+            })
+          : data.map((product, index) => {
+              return (
+                <div
+                  key={product._id}
+                  className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow"
+                >
+                  <div className="bg-slate-200 h-48 p-4 min-w-[280px] md:min-w-[145px] flex justify-center items-center">
+                    <img
+                      src={product.productImage[0]}
+                      className="object-scale-down h-full hover:scale-110 transition-all mix-blend-multiply"
+                    />
+                  </div>
+                  <div className="p-4 grid gap-2 ">
+                    <h2 className="font-semibold text-base md:text-lg text-ellipsis line-clamp-1 text-black">
+                      {product.brandName + " "}
+                      {product?.productName}
+                    </h2>
+                    <p className="text-sm text-slate-400">
+                      {product?.category}
+                    </p>
+                    <div className="flex gap-3">
+                      <p className="text-cyan-500 font-medium">
+                        {displayCurrency(product.sellingPrice)}
+                      </p>
 
-                <button className="bg-cyan-500 hover:bg-cyan-600 text-sm text-white rounded-full px-3 py-1 flex gap-1 items-center justify-center">
-                  <BsCartPlus /> Add to Cart
-                </button>
-              </div>
-            </div>
-          );
-        })}
+                      <p className=" text-slate-500 line-through">
+                        {displayCurrency(product.price)}
+                      </p>
+                    </div>
+
+                    <button className="bg-cyan-500 hover:bg-cyan-600 text-sm text-white rounded-full px-3 py-1 flex gap-1 items-center justify-center">
+                      <BsCartPlus /> Add to Cart
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
       </div>
     </div>
   );
