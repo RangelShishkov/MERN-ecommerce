@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Logo from "./Logo";
 import { GrSearch } from "react-icons/gr";
 import { FaRegUser } from "react-icons/fa6";
@@ -9,11 +9,13 @@ import SummaryApi from "../common";
 import { toast } from "react-toastify";
 import { setUserDetails } from "../store/userSlice";
 import ROLE from "../common/role";
+import Context from "../context";
 
 const Header = () => {
   const user = useSelector((state) => state?.user?.user);
   const dispatch = useDispatch();
   const [menuDisplay, setMenuDisplay] = useState(false);
+  const context = useContext(Context);
 
   const logoutHandler = async () => {
     const fetchData = await fetch(SummaryApi.logout_user.url, {
@@ -31,6 +33,7 @@ const Header = () => {
       toast.error(data.message);
     }
   };
+
   return (
     <header className="h-16 shadow-md bg-white fixed w-full z-40">
       <div className="h-full container mx-auto flex items-center px-4 justify-between">
@@ -52,9 +55,16 @@ const Header = () => {
         </div>
 
         <div className="flex items-center gap-5">
-          <div className="text-2xl cursor-pointer">
-            <PiShoppingCartSimple />
-          </div>
+          {user?._id && (
+            <div className="text-2xl relative cursor-pointer">
+              <PiShoppingCartSimple />
+
+              <div className="bg-cyan-600 text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3 ">
+                <p className="text-sm">{context?.cartProductCount}</p>
+              </div>
+            </div>
+          )}
+
           {user?._id && (
             <div
               className="text-xl cursor-pointer"

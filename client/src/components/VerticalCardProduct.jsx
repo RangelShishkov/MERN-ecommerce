@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import fetchCategoryProducts from "../helpers/fetchCategoryProducts";
 import displayCurrency from "../helpers/displayCurrency";
 import { BsCartPlus } from "react-icons/bs";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import addToCart from "../helpers/addToCart";
+import Context from "../context";
 
 const VerticalCardProduct = ({ category, heading }) => {
   const [data, setData] = useState([]);
@@ -13,6 +14,13 @@ const VerticalCardProduct = ({ category, heading }) => {
 
   const [scroll, setScroll] = useState(0);
   const scrollElement = useRef();
+
+  const { fetchUserAddToCart } = useContext(Context);
+
+  const addToCartHandler = async (e, id) => {
+    await addToCart(e, id);
+    fetchUserAddToCart();
+  };
 
   const fetchData = async () => {
     setLoading(true);
@@ -103,7 +111,7 @@ const VerticalCardProduct = ({ category, heading }) => {
                       </p>
                     </div>
 
-                    <button className="bg-cyan-500 hover:bg-cyan-600 text-sm text-white rounded-full px-3 py-1 flex gap-1 items-center justify-center" onClick={(e)=> addToCart(e,product?._id)}>
+                    <button className="bg-cyan-500 hover:bg-cyan-600 text-sm text-white rounded-full px-3 py-1 flex gap-1 items-center justify-center" onClick={(e)=> addToCartHandler(e,product?._id)}>
                       <BsCartPlus /> Add to Cart
                     </button>
                   </div>

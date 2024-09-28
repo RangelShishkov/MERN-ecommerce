@@ -3,15 +3,15 @@ const cartProductModel = require("../../models/cartProductModel");
 const addToCartController = async (req, res) => {
   try {
     const { productId } = req?.body;
-    const { currentUser } = req?.userId;
-
-    const isProductAvaliable = await cartProductModel.find({ productId });
+    const  currentUser  = req.userId;
+    console.log("cur user",currentUser)
+    const isProductAvaliable = await cartProductModel.findOne({ productId });
 
     if (isProductAvaliable) {
       return res.json({
         message: "Item is already in your cart!",
-        success: true,
-        error: false,
+        success: false,
+        error: true,
       });
     }
 
@@ -24,9 +24,9 @@ const addToCartController = async (req, res) => {
     const newCartProduct = new cartProductModel(payload);
     const saveProduct = await newCartProduct.save();
 
-    res.json({
+    return res.json({
       data: saveProduct,
-      message: "product added",
+      message: "Product added in cart",
       success: true,
       error: false,
     });

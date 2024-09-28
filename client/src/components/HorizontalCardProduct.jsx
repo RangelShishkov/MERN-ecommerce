@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import fetchCategoryProducts from "../helpers/fetchCategoryProducts";
 import displayCurrency from "../helpers/displayCurrency";
 import { BsCartPlus } from "react-icons/bs";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import addToCart from "../helpers/addToCart";
+import Context from "../context";
 
 const HorizontalCardProduct = ({ category, heading }) => {
   const [data, setData] = useState([]);
@@ -13,6 +14,13 @@ const HorizontalCardProduct = ({ category, heading }) => {
 
   const [scroll, setScroll] = useState(0);
   const scrollElement = useRef();
+
+  const { fetchUserAddToCart } = useContext(Context);
+
+  const addToCartHandler = async (e, id) => {
+    await addToCart(e, id);
+    fetchUserAddToCart();
+  };
 
   const fetchData = async () => {
     setLoading(true);
@@ -24,7 +32,7 @@ const HorizontalCardProduct = ({ category, heading }) => {
 
   useEffect(() => {
     fetchData();
-  },[]);
+  }, []);
 
   const scrollRight = () => {
     scrollElement.current.scrollLeft += 350;
@@ -77,7 +85,8 @@ const HorizontalCardProduct = ({ category, heading }) => {
             })
           : data.map((product, index) => {
               return (
-                <Link to={"product/"+product?._id}
+                <Link
+                  to={"product/" + product?._id}
                   key={product._id}
                   className="w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] h-36 bg-white rounded-sm shadow flex"
                 >
@@ -105,7 +114,10 @@ const HorizontalCardProduct = ({ category, heading }) => {
                       </p>
                     </div>
 
-                    <button className="bg-cyan-500 hover:bg-cyan-600 text-sm text-white rounded-full px-3 py-1 flex gap-1 items-center justify-center" onClick={(e)=> addToCart(e,product?._id)}>
+                    <button
+                      className="bg-cyan-500 hover:bg-cyan-600 text-sm text-white rounded-full px-3 py-1 flex gap-1 items-center justify-center"
+                      onClick={(e) => addToCartHandler(e, product?._id)}
+                    >
                       <BsCartPlus /> Add to Cart
                     </button>
                   </div>
