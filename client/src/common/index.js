@@ -45,21 +45,29 @@ const SummaryApi = {
     url: `${backendDomain}/api/category-product`,
     method: "post",
   },
-  productDetails : {
+  productDetails: {
     url: `${backendDomain}/api/product-details`,
-    method: "post"
+    method: "post",
   },
-  addToCartProduct : {
-    url:`${backendDomain}/api/addtocart`,
+  addToCartProduct: {
+    url: `${backendDomain}/api/addtocart`,
     method: "post",
   },
   addToCartProductCount: {
-    url:`${backendDomain}/api/countAddToCart`,
-    method: "get"
+    url: `${backendDomain}/api/countAddToCart`,
+    method: "get",
   },
   addToCartViewProduct: {
     url: `${backendDomain}/api/view-cart-product`,
-    method: "get"
+    method: "get",
+  },
+  updateCartProduct: {
+    url: `${backendDomain}/api/update-cart-product`,
+    method: "post",
+  },
+  deleteCartProduct: {
+    url : `${backendDomain}/api/delete-cart-product`,
+    method: "post"
   }
 };
 
