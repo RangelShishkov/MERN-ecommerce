@@ -49,7 +49,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     fetchProductDetails();
-  }, []);
+  }, [params]);
 
   const onImageHoverHandle = (imageURL) => {
     setActiveImage(imageURL);

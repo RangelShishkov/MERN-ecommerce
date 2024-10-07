@@ -12,6 +12,9 @@ try {
             },
             {
                 category : regex
+            },
+            {
+                brandName : regex
             }
         ]
     })
