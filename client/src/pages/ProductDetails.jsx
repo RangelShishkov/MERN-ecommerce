@@ -5,6 +5,7 @@ import { FaStar, FaStarHalf } from "react-icons/fa";
 import displayCurrency from "../helpers/displayCurrency";
 import VerticalCardProduct from "../components/VerticalCardProduct";
 import ProductDisplay from "../components/ProductDisplay";
+import addToCart from "../helpers/addToCart";
 
 const ProductDetails = () => {
   const [data, setData] = useState({
@@ -67,6 +68,10 @@ const ProductDetails = () => {
 
   const imageZoomOutHandler = () => {
     setZoomImage(false);
+  };
+
+  const addToCartHandler = async (e, id) => {
+    await addToCart(e, id);
   };
 
   return (
@@ -179,7 +184,10 @@ const ProductDetails = () => {
               </p>
             </div>
             <div className="flex items-center gap-3 my-2">
-              <button className="border-2 border-cyan-600 rounded px-3 py-1 min-w-[100px] text-cyan-600 font-medium hover:bg-cyan-600 hover:text-white">
+              <button
+                className="border-2 border-cyan-600 rounded px-3 py-1 min-w-[100px] text-cyan-600 font-medium hover:bg-cyan-600 hover:text-white"
+                onClick={(e) => addToCartHandler(e, data._id)}
+              >
                 Buy
               </button>
               <button className="border-2 border-cyan-600 rounded px-3 py-1 min-w-[100px] text-white font-medium  bg-cyan-600 hover:bg-white hover:text-cyan-600">

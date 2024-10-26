@@ -16,9 +16,11 @@ const Header = () => {
   const dispatch = useDispatch();
   const [menuDisplay, setMenuDisplay] = useState(false);
   const context = useContext(Context);
-  const navigate = useNavigate()
-  const searchInput = useLocation()
-  const [search,setSearch] = useState(searchInput?.search?.split('=')[1])
+  const navigate = useNavigate();
+  const searchInput = useLocation();
+  const URLSearch = new URLSearchParams(searchInput?.search);
+  const searchQuery = URLSearch.getAll("q");
+  const [search, setSearch] = useState(searchQuery);
 
   const logoutHandler = async () => {
     const fetchData = await fetch(SummaryApi.logout_user.url, {
@@ -39,13 +41,12 @@ const Header = () => {
 
   const searchHandler = (e) => {
     const { value } = e.target;
-      setSearch(value)
-    if(value){
-      navigate(`/search?q=${value}`)
-    }else{
-      navigate("/search")
+    setSearch(value);
+    if (value) {
+      navigate(`/search?q=${value}`);
+    } else {
+      navigate("/search");
     }
-
   };
 
   return (
