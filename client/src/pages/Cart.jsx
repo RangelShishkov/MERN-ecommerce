@@ -12,7 +12,6 @@ const Cart = () => {
   const loadingCart = new Array(context.cartProductCount).fill(null);
 
   const fetchData = async () => {
-    setLoading(true);
     const response = await fetch(SummaryApi.addToCartViewProduct.url, {
       method: SummaryApi.addToCartViewProduct.method,
       credentials: "include",
@@ -20,14 +19,18 @@ const Cart = () => {
         "content-type": "application/json",
       },
     });
-    setLoading(false);
     const responseData = await response.json();
     if (responseData.success) {
       setData(responseData.data);
     }
   };
+  const loadingHandler = async () => {
+    await fetchData();
+  };
   useEffect(() => {
-    fetchData();
+    setLoading(true);
+    loadingHandler();
+    setLoading(false);
   }, []);
 
   const increaseQty = async (id, qty) => {
@@ -111,7 +114,7 @@ const Cart = () => {
             ? loadingCart.map((el, index) => {
                 return (
                   <div
-                    key={el}
+                    key={el + "add to cart" + index}
                     className="w-full bg-slate-200 h-32 my-3 border border-slate-300 animate-pulse rounded"
                   ></div>
                 );
@@ -193,7 +196,9 @@ const Cart = () => {
                 <p>Total Price</p>
                 <p>{displayCurrency(totalPrice)}</p>
               </div>
-              <button className="bg-blue-600 p-2 text-white w-full">Payment</button>
+              <button className="bg-blue-600 p-2 text-white w-full">
+                Payment
+              </button>
             </div>
           )}
         </div>

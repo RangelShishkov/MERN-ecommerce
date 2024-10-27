@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import SummaryApi from "../common";
 import { FaStar, FaStarHalf } from "react-icons/fa";
 import displayCurrency from "../helpers/displayCurrency";
 import VerticalCardProduct from "../components/VerticalCardProduct";
 import ProductDisplay from "../components/ProductDisplay";
 import addToCart from "../helpers/addToCart";
+import Context from "../context";
 
 const ProductDetails = () => {
   const [data, setData] = useState({
@@ -28,6 +29,8 @@ const ProductDetails = () => {
   });
 
   const [zoomImage, setZoomImage] = useState(false);
+  const { fetchUserAddToCart } = useContext(Context);
+  const navigate = useNavigate();
 
   const fetchProductDetails = async () => {
     setLoading(true);
@@ -72,6 +75,13 @@ const ProductDetails = () => {
 
   const addToCartHandler = async (e, id) => {
     await addToCart(e, id);
+    fetchUserAddToCart();
+  };
+
+  const buyProductHandler = async (e, id) => {
+    await addToCart(e, id);
+    fetchUserAddToCart();
+    navigate("/cart");
   };
 
   return (
@@ -186,11 +196,14 @@ const ProductDetails = () => {
             <div className="flex items-center gap-3 my-2">
               <button
                 className="border-2 border-cyan-600 rounded px-3 py-1 min-w-[100px] text-cyan-600 font-medium hover:bg-cyan-600 hover:text-white"
-                onClick={(e) => addToCartHandler(e, data._id)}
+                onClick={(e) => buyProductHandler(e, data?._id)}
               >
                 Buy
               </button>
-              <button className="border-2 border-cyan-600 rounded px-3 py-1 min-w-[100px] text-white font-medium  bg-cyan-600 hover:bg-white hover:text-cyan-600">
+              <button
+                className="border-2 border-cyan-600 rounded px-3 py-1 min-w-[100px] text-white font-medium  bg-cyan-600 hover:bg-white hover:text-cyan-600"
+                onClick={(e) => addToCartHandler(e, data._id)}
+              >
                 Add to Cart
               </button>
             </div>
