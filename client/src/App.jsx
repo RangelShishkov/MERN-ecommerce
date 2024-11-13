@@ -10,6 +10,7 @@ import SummaryApi from "./common";
 import Context from "./context";
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "./store/userSlice";
+import BackToTopButton from "./components/BackToTop";
 
 function App() {
   const dispatch = useDispatch();
@@ -62,6 +63,7 @@ function App() {
           <Outlet />
         </main>
         <Footer />
+        <BackToTopButton />
       </Context.Provider>
     </>
   );
