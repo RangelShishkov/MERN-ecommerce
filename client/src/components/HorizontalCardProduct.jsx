@@ -105,14 +105,25 @@ const HorizontalCardProduct = ({ category, heading }) => {
                       {product?.category}
                     </p>
                     <div className="flex gap-3">
+                      {/* Check if sellingPrice is different from price */}
+                  {product.sellingPrice !== product.price && (
+                      <>
+                        <p className="text-cyan-500 font-medium">
+                          {displayCurrency(product.sellingPrice)}
+                        </p>
+                        <p className="text-slate-500 line-through">
+                          {displayCurrency(product.price)}
+                        </p>
+                      </>
+                    )}
+
+                    {/* If sellingPrice equals price, just display the selling price */}
+                    {product.sellingPrice === product.price && (
                       <p className="text-cyan-500 font-medium">
                         {displayCurrency(product.sellingPrice)}
                       </p>
-
-                      <p className=" text-slate-500 line-through">
-                        {displayCurrency(product.price)}
-                      </p>
-                    </div>
+                    )}
+                  </div>
 
                     <button
                       className="bg-cyan-500 hover:bg-cyan-600 text-sm text-white rounded-full px-3 py-1 flex gap-1 items-center justify-center"

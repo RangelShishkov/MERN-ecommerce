@@ -60,13 +60,24 @@ const VerticalCard = ({loading,data = []}) => {
                   </h2>
                   <p className="text-sm text-slate-400">{product?.category}</p>
                   <div className="flex gap-3">
-                    <p className="text-cyan-500 font-medium">
-                      {displayCurrency(product.sellingPrice)}
-                    </p>
+                    {/* Check if sellingPrice is different from price */}
+                  {product.sellingPrice !== product.price && (
+                      <>
+                        <p className="text-cyan-500 font-medium">
+                          {displayCurrency(product.sellingPrice)}
+                        </p>
+                        <p className="text-slate-500 line-through">
+                          {displayCurrency(product.price)}
+                        </p>
+                      </>
+                    )}
 
-                    <p className=" text-slate-500 line-through">
-                      {displayCurrency(product.price)}
-                    </p>
+                    {/* If sellingPrice equals price, just display the selling price */}
+                    {product.sellingPrice === product.price && (
+                      <p className="text-cyan-500 font-medium">
+                        {displayCurrency(product.sellingPrice)}
+                      </p>
+                    )}
                   </div>
 
                   <button
