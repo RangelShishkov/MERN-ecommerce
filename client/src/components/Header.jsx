@@ -33,7 +33,7 @@ const Header = () => {
     if (data.success) {
       toast.success(data.message);
       dispatch(setUserDetails(null));
-      navigate("/")
+      navigate("/");
     }
     if (data.error) {
       toast.error(data.message);
@@ -96,14 +96,40 @@ const Header = () => {
             {menuDisplay && (
               <div className="absolute bg-white bottom-0 top-9 h-fit p-2 shadow-lg rounded">
                 <nav>
-                  {user?.role === ROLE.ADMIN && (
-                    <Link
-                      to={"/admin-panel/all-products"}
-                      className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2"
-                      onClick={() => setMenuDisplay((preve) => !preve)}
-                    >
-                      Admin Panel
-                    </Link>
+                  {user?.role === ROLE.ADMIN ? (
+                    <>
+                      <Link
+                        to={"/admin-panel/all-products"}
+                        className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2"
+                        onClick={() => setMenuDisplay((prev) => !prev)}
+                      >
+                        Admin Panel
+                      </Link>
+                      <Link
+                        to="/profile"
+                        className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2"
+                        onClick={() => setMenuDisplay((prev) => !prev)}
+                      >
+                        My Profile
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to="/profile"
+                        className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2"
+                        onClick={() => setMenuDisplay((prev) => !prev)}
+                      >
+                        My Profile
+                      </Link>
+                      <Link
+                        to="/orders"
+                        className="whitespace-nowrap hidden md:block hover:bg-slate-100 p-2"
+                        onClick={() => setMenuDisplay((prev) => !prev)}
+                      >
+                        My Orders
+                      </Link>
+                    </>
                   )}
                 </nav>
               </div>

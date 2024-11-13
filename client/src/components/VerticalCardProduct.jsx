@@ -50,13 +50,13 @@ const VerticalCardProduct = ({ category, heading }) => {
       >
         <button
           onClick={scrollLeft}
-          className="bg-white shadow-md rounded-full p-1 absolute left-0 text-lg hidden md:block"
+          className="bg-white shadow-md rounded-full p-1 absolute left-0 z-10 text-lg hidden md:block"
         >
           <FaAngleLeft />
         </button>
         <button
           onClick={scrollRight}
-          className="bg-white shadow-md rounded-full p-1 absolute right-0 text-lg hidden md:block"
+          className="bg-white shadow-md rounded-full p-1 absolute right-0 z-10 text-lg hidden md:block"
         >
           <FaAngleRight />
         </button>
@@ -116,7 +116,7 @@ const VerticalCardProduct = ({ category, heading }) => {
 
                     {/* If sellingPrice equals price, just display the selling price */}
                     {product.sellingPrice === product.price && (
-                      <p className="text-cyan-500 font-medium">
+                      <p className="text-red-500 font-medium">
                         {displayCurrency(product.sellingPrice)}
                       </p>
                     )}
